@@ -1,0 +1,298 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#141519">
+<title>План на сентябрь</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141519; --pane:#1C1E24; --pane2:#232631; --line:#2E323C;
+  --fg:#EAE9E5; --fg2:#9B9DA8; --fg3:#6E7280;
+  --cv:#4D8BE8; --st:#8B6FE8; --ct:#E8763F; --sp:#37B58A;
+  --work:#565C6B; --eve:#C9902F; --ot:#4A4F5C;
+  --hour:38px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--ink);color:var(--fg)}
+body{font-family:"Golos Text",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:15px;line-height:1.45;padding:0 0 48px;
+  padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+
+header{padding:calc(22px + env(safe-area-inset-top)) 0 16px}
+h1{font-size:23px;font-weight:600;margin:0;letter-spacing:-0.01em}
+.sub{color:var(--fg2);font-size:13px;margin-top:5px}
+.meter{height:5px;background:var(--pane2);border-radius:3px;margin-top:14px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--fg);border-radius:3px;transition:width .25s ease}
+
+.strip{margin-top:22px}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+.dow span{font-size:11px;color:var(--fg3);text-align:center}
+.dates{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dt{position:relative;height:46px;border:none;border-radius:9px;background:var(--pane);
+  color:var(--fg);font:inherit;font-size:15px;cursor:pointer;padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.dt:focus-visible{outline:2px solid var(--cv);outline-offset:2px}
+.dt u{display:block;width:15px;height:3px;border-radius:2px;text-decoration:none}
+.dt[aria-pressed="true"]{background:var(--fg);color:var(--ink)}
+.dt.full{box-shadow:inset 0 0 0 1.5px var(--sp)}
+.dt.full[aria-pressed="true"]{box-shadow:none}
+.dt.void{background:transparent;pointer-events:none}
+
+.dayhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:26px 0 4px}
+.dayhead h2{font-size:19px;font-weight:500;margin:0}
+.dayhead p{margin:3px 0 0;font-size:13px;color:var(--fg2)}
+.today{border:1px solid var(--line);background:transparent;color:var(--fg2);
+  font:inherit;font-size:12px;padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.today:active{background:var(--pane)}
+
+.tl{position:relative;margin-top:16px;padding-left:42px}
+.rule{position:absolute;left:0;right:0;border-top:1px solid var(--line);opacity:.55}
+.rule b{position:absolute;left:0;top:-8px;font-size:11px;font-weight:400;color:var(--fg3)}
+.shift{position:absolute;left:42px;width:5px;border-radius:3px;background:var(--work)}
+.shift.ev{background:var(--eve)}
+.lane{position:relative;margin-left:13px}
+.blk{position:absolute;left:0;right:0;border:none;border-radius:9px;padding:8px 11px;
+  text-align:left;font:inherit;cursor:pointer;color:var(--fg);overflow:hidden;
+  background:var(--pane2);display:flex;flex-direction:column;justify-content:center;gap:2px}
+.blk:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.blk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.blk .nm{font-size:14px;font-weight:500;line-height:1.25}
+.blk .tm{font-size:11.5px;color:var(--fg2)}
+.blk.on{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.blk.on .nm{color:var(--fg3);text-decoration:line-through}
+.blk.on .tm{color:var(--ot)}
+.blk.on::before{opacity:.35}
+.blk.fixed{cursor:default;background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.blk.fixed .nm{font-weight:400;color:var(--fg2)}
+
+.tot{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:30px}
+.t{background:var(--pane);border-radius:11px;padding:12px 13px}
+.t b{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:400;color:var(--fg2)}
+.t b i{width:8px;height:8px;border-radius:2px;display:block}
+.t span{display:block;font-size:16px;font-weight:500;margin-top:5px}
+footer{margin-top:26px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+footer p{margin:0;font-size:12px;color:var(--fg3)}
+.clr{border:1px solid var(--line);background:transparent;color:var(--fg2);
+  font:inherit;font-size:12px;padding:7px 12px;border-radius:7px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Сентябрь</h1>
+  <p class="sub" id="sub">Загружаю отметки…</p>
+  <div class="meter"><i id="meter"></i></div>
+</header>
+
+<div class="strip">
+  <div class="dow"><span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span></div>
+  <div class="dates" id="dates"></div>
+</div>
+
+<div class="dayhead">
+  <div><h2 id="dname"></h2><p id="dshift"></p></div>
+  <button class="today" id="jump" type="button">Сегодня</button>
+</div>
+
+<div class="tl" id="tl"></div>
+
+<div class="tot" id="tot"></div>
+
+<footer>
+  <p id="note">Отметки сохраняются на этом устройстве</p>
+  <button class="clr" id="clr" type="button">Сбросить</button>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var CAT={
+  cv:{n:"Учёба CV",c:"var(--cv)"},
+  st:{n:"Стримы",c:"var(--st)"},
+  ct:{n:"Контент",c:"var(--ct)"},
+  sp:{n:"Спорт",c:"var(--sp)"},
+  ot:{n:"Отдых",c:"var(--ot)"}
+};
+var WN=["понедельник","вторник","среда","четверг","пятница","суббота","воскресенье"];
+
+function lec(){return ["08:15","09:00","Лекция по CV в дороге","cv"];}
+function note(){return ["13:00","13:20","Заметки: идеи для сценариев","ct"];}
+function job(){return ["09:00","18:00","Работа в ЦУМе","work"];}
+
+var D={};
+function day(n,kind,shift,items){D[n]={kind:kind,shift:shift,items:items};}
+
+function evening(extra){return [lec(),job(),note()].concat(extra);}
+
+day(9 ,"day",  "09:00–18:00", evening([["19:30","21:30","Обучение CV","cv"],["21:45","22:30","Силовая тренировка","sp"]]));
+day(10,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(11,"day",  "09:00–18:00", evening([["19:30","21:00","Съёмка рилсов","ct"]]));
+day(12,"off",  "Выходной",    [["10:00","11:00","Спорт","sp"],["12:00","14:30","Съёмка партии рилсов","ct"],["20:00","23:30","Стрим на Twitch","st"]]);
+day(13,"off",  "Выходной",    [["11:00","14:30","Обучение CV","cv"],["15:30","17:30","Монтаж партии","ct"],["18:00","19:00","Сценарии на неделю","ct"]]);
+day(14,"day",  "09:00–18:00", evening([["19:30","21:30","Обучение CV","cv"],["21:45","22:30","Силовая тренировка","sp"]]));
+day(15,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(16,"day",  "09:00–18:00", evening([["19:30","21:30","Обучение CV","cv"],["21:45","22:30","Кардио или растяжка","sp"]]));
+day(17,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(18,"off",  "Выходной",    [["10:00","11:00","Спорт","sp"],["12:00","15:00","Съёмка партии рилсов","ct"],["16:00","18:00","Монтаж партии","ct"]]);
+day(19,"off",  "Выходной",    [["11:00","14:30","Обучение CV","cv"],["15:30","16:30","Сценарии на неделю","ct"],["20:00","23:30","Стрим на Twitch","st"]]);
+day(20,"eve",  "13:00–22:00", [["09:00","11:30","Свободное утро","ot"],["12:15","13:00","Лекция по CV в дороге","cv"],["13:00","22:00","Работа в ЦУМе","work"],["17:00","17:20","Заметки: идеи для сценариев","ct"]]);
+day(21,"day",  "09:00–18:00", evening([["19:30","21:00","Обучение CV, лёгкий блок","cv"],["22:30","23:00","Ранний отбой","ot"]]));
+day(22,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(23,"day",  "09:00–18:00", evening([["19:30","21:30","Обучение CV","cv"],["21:45","22:30","Силовая тренировка","sp"]]));
+day(24,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(25,"off",  "Выходной",    [["10:00","11:00","Спорт","sp"],["12:00","15:00","Съёмка партии рилсов","ct"],["16:00","18:00","Монтаж партии","ct"]]);
+day(26,"off",  "Выходной",    [["11:00","14:30","Обучение CV","cv"],["15:30","16:30","Сценарии на неделю","ct"],["20:00","23:30","Стрим на Twitch","st"]]);
+day(27,"eve",  "13:00–22:00", [["09:00","10:00","Кардио или бассейн","sp"],["12:15","13:00","Лекция по CV в дороге","cv"],["13:00","22:00","Работа в ЦУМе","work"],["17:00","17:20","Заметки: идеи для сценариев","ct"]]);
+day(28,"day",  "09:00–18:00", evening([["19:30","21:00","Обучение CV, лёгкий блок","cv"],["22:30","23:00","Ранний отбой","ot"]]));
+day(29,"day",  "09:00–18:00", evening([["19:30","23:00","Стрим на Twitch","st"]]));
+day(30,"day",  "09:00–18:00", evening([["19:30","21:00","Съёмка рилсов","ct"],["21:15","22:00","Силовая тренировка","sp"]]));
+
+var DAYS=[];for(var n=9;n<=30;n++)DAYS.push(n);
+
+function mins(s){var p=s.split(":");return +p[0]*60+ +p[1];}
+function todo(d){return D[d].items.filter(function(i){return i[3]!=="work";});}
+var TOTAL=0;DAYS.forEach(function(d){TOTAL+=todo(d).length;});
+
+var HOURS=[];for(var h=7;h<=24;h++)HOURS.push(h);
+var T0=7*60, PX=38/60;
+
+var KEY="plan-2026-09";
+var done={};
+var mem=false;
+function ok(){
+  try{localStorage.setItem("__probe","1");localStorage.removeItem("__probe");return true;}
+  catch(e){return false;}
+}
+function load(){
+  if(!ok()){mem=true;boot();return;}
+  try{var raw=localStorage.getItem(KEY);if(raw)done=JSON.parse(raw)||{};}catch(e){done={};}
+  boot();
+}
+function save(){
+  if(mem)return;
+  try{localStorage.setItem(KEY,JSON.stringify(done));}catch(e){mem=true;}
+}
+
+var cur=9;
+function realToday(){
+  var t=new Date();
+  if(t.getFullYear()===2026&&t.getMonth()===8&&t.getDate()>=9&&t.getDate()<=30)return t.getDate();
+  return null;
+}
+function firstOpen(){
+  for(var i=0;i<DAYS.length;i++){var d=DAYS[i];
+    if(todo(d).some(function(_,j){return !done[d+"."+j];}))return d;}
+  return 30;
+}
+
+function wd(d){return (d+6)%7;}
+function cntDone(d){var t=todo(d),c=0;t.forEach(function(_,j){if(done[d+"."+j])c++;});return c;}
+function stripeColor(d){var k=D[d].kind;return k==="off"?"var(--sp)":(k==="eve"?"var(--eve)":"var(--work)");}
+
+var elDates=document.getElementById("dates"),
+    elTl=document.getElementById("tl"),
+    elTot=document.getElementById("tot");
+
+function drawStrip(){
+  var h="";
+  for(var v=0;v<2;v++)h+='<span class="dt void"></span>';
+  DAYS.forEach(function(d){
+    var t=todo(d),full=cntDone(d)===t.length;
+    h+='<button class="dt'+(full?" full":"")+'" type="button" data-d="'+d+'" aria-pressed="'+(d===cur)+'" aria-label="'+d+' сентября">'+
+       d+'<u style="background:'+stripeColor(d)+'"></u></button>';
+  });
+  elDates.innerHTML=h;
+}
+
+function drawDay(){
+  var p=D[cur];
+  document.getElementById("dname").textContent=cur+" сентября, "+WN[wd(cur)];
+  document.getElementById("dshift").textContent=p.kind==="off"?"Выходной":"Смена "+p.shift;
+
+  var h="",H=(HOURS.length-1)*38;
+  HOURS.forEach(function(hh,i){
+    h+='<div class="rule" style="top:'+(i*38)+'px"><b>'+(hh<10?"0"+hh:hh)+'</b></div>';
+  });
+  p.items.forEach(function(it){
+    if(it[3]!=="work")return;
+    var a=(mins(it[0])-T0)*PX, b=(mins(it[1])-T0)*PX;
+    h+='<div class="shift'+(p.kind==="eve"?" ev":"")+'" style="top:'+a+'px;height:'+(b-a)+'px"></div>';
+  });
+  h+='<div class="lane" style="height:'+H+'px">';
+  var tIdx=-1;
+  p.items.forEach(function(it){
+    if(it[3]==="work"){
+      var wa=(mins(it[0])-T0)*PX, wb=(mins(it[1])-T0)*PX;
+      h+='<div class="blk fixed" style="top:'+wa+'px;height:'+(wb-wa)+'px;--c:var(--work)">'+
+         '<span class="nm">'+it[2]+'</span><span class="tm">'+it[0]+"–"+it[1]+'</span></div>';
+      return;
+    }
+    tIdx++;
+    var k=cur+"."+tIdx, on=!!done[k];
+    var a=(mins(it[0])-T0)*PX, len=Math.max((mins(it[1])-mins(it[0]))*PX,36);
+    h+='<button class="blk'+(on?" on":"")+'" type="button" data-j="'+tIdx+'" aria-pressed="'+on+'"'+
+       ' style="top:'+a+'px;height:'+len+'px;--c:'+CAT[it[3]].c+'">'+
+       '<span class="nm">'+it[2]+'</span><span class="tm">'+it[0]+"–"+it[1]+" · "+CAT[it[3]].n+'</span></button>';
+  });
+  h+="</div>";
+  elTl.style.height=H+"px";
+  elTl.innerHTML=h;
+}
+
+function drawTotals(){
+  var got={},all={};
+  DAYS.forEach(function(d){
+    todo(d).forEach(function(it,j){
+      var c=it[3];if(c==="ot")return;
+      var hrs=(mins(it[1])-mins(it[0]))/60;
+      all[c]=(all[c]||0)+hrs;
+      if(done[d+"."+j])got[c]=(got[c]||0)+hrs;
+    });
+  });
+  var h="";
+  ["cv","st","ct","sp"].forEach(function(c){
+    h+='<div class="t"><b><i style="background:'+CAT[c].c+'"></i>'+CAT[c].n+"</b><span>"+
+       fmt(got[c]||0)+" из "+fmt(all[c])+" ч</span></div>";
+  });
+  elTot.innerHTML=h;
+
+  var c=0;DAYS.forEach(function(d){c+=cntDone(d);});
+  document.getElementById("sub").textContent="Сделано "+c+" из "+TOTAL+" дел";
+  document.getElementById("meter").style.width=Math.round(c/TOTAL*100)+"%";
+  document.getElementById("note").textContent=mem
+    ? "Отметки не сохранятся: открой файл по ссылке, а не внутри чата"
+    : "Отметки сохраняются на этом устройстве";
+}
+function fmt(x){return (Math.round(x*10)/10).toFixed(1).replace(".",",");}
+
+function paint(){drawStrip();drawDay();drawTotals();}
+
+elDates.addEventListener("click",function(e){
+  var b=e.target.closest(".dt");if(!b||!b.dataset.d)return;
+  cur=+b.dataset.d;paint();
+});
+elTl.addEventListener("click",function(e){
+  var b=e.target.closest(".blk");if(!b||b.dataset.j===undefined)return;
+  var k=cur+"."+b.dataset.j;done[k]=!done[k];if(!done[k])delete done[k];
+  save();paint();
+});
+document.getElementById("jump").addEventListener("click",function(){
+  cur=realToday()||firstOpen();paint();
+  document.querySelector('.dt[aria-pressed="true"]').scrollIntoView({block:"center",behavior:"smooth"});
+});
+document.getElementById("clr").addEventListener("click",function(){
+  if(!confirm("Снять все отметки?"))return;
+  done={};save();paint();
+});
+
+function boot(){cur=realToday()||firstOpen();paint();}
+load();
+})();
+</script>
